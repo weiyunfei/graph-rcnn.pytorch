@@ -176,6 +176,8 @@ def evaluate_recall(gt_rels, gt_boxes, gt_classes,
                                                 gt_classes,
                                                 gt_boxes)
     num_boxes = pred_boxes.shape[0]
+    print(pred_rels[:,:2].max())
+    print(pred_classes.shape[0])
     assert pred_rels[:,:2].max() < pred_classes.shape[0]
 
     # Exclude self rels
