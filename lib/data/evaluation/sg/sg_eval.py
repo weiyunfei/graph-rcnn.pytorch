@@ -10,7 +10,7 @@ def do_sg_evaluation(dataset, predictions, predictions_pred, output_folder, logg
     evaluator = BasicSceneGraphEvaluator.all_modes(multiple_preds=False)
 
     top_Ns = [20, 50, 100]
-    modes = ["sgdet"]
+    modes = ["predcls", "sgcls", "sgdet", "sgdet+"]
     result_dict = {}
 
     for mode in modes:
@@ -132,21 +132,21 @@ def evaluate(gt_classes, gt_boxes, gt_rels,
     # assert(relations.shape[0] == num_boxes * (num_boxes - 1))
     assert(predicates.shape[0] == relations.shape[0])
     num_relations = relations.shape[0]
-    if mode =='predcls':
+    if mode == 'predcls':
         # if predicate classification task
         # use ground truth bounding boxes
         assert(num_boxes == num_gt_boxes)
         classes = gt_classes
         class_scores = gt_class_scores
         boxes = gt_boxes
-    elif mode =='sgcls':
+    elif mode == 'sgcls':
         assert(num_boxes == num_gt_boxes)
         # if scene graph classification task
         # use gt boxes, but predicted classes
         classes = obj_labels.numpy() # np.argmax(class_preds, 1)
         class_scores = obj_scores.numpy()
         boxes = gt_boxes
-    elif mode =='sgdet' or mode == 'sgdet+':
+    elif mode == 'sgdet' or mode == 'sgdet+':
         # if scene graph detection task
         # use preicted boxes and predicted classes
         classes = obj_labels.numpy() # np.argmax(class_preds, 1)
